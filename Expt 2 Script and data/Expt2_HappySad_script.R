@@ -3,6 +3,7 @@ library (lmerTest)
 library (lsmeans)
 library (pbkrtest)
 library (readr)
+library (ggplot2)
 
 #script for HappySad RT and accuracy data analysis
 
@@ -13,14 +14,13 @@ HappySadRT <- read_csv("~/HappySadRT.csv")
 HappySadRT$StoryEmotion <- as.factor (HappySadRT$StoryEmotion)
 HappySadRT$FaceExpression <- as.factor (HappySadRT$FaceExpression)
 
-contrasts (HappySadRT$StoryEmotion)<-matrix (c(.5, -.5)) 
-contrasts (HappySadRT$FaceExpression)<-matrix (c(.5, -.5)) 
+contrasts (HappySadRT$StoryEmotion) <- matrix (c(.5, -.5)) 
+contrasts (HappySadRT$FaceExpression) <- matrix (c(.5, -.5)) 
 
-#in datafile Trials corresponds to Vignettes, and KDEFfaces corresponds to Faces
 
 #this model is with crossed random effects - full model does not converge but the following one does (dropping the interaciton term from the final random effect)
-modelRT <- lmer (RT ~ StoryEmotion*FaceExpression + (1+StoryEmotion*FaceExpression|Subject) + (1+StoryEmotion*FaceExpression|Trials) + (1+StoryEmotion+FaceExpression|KDEFfaces), data=HappySadRT, REML=TRUE)
-modelRT.null <- lmer (RT ~ (1+StoryEmotion*FaceExpression|Subject) + (1+StoryEmotion*FaceExpression|Trials) + (1+StoryEmotion+FaceExpression|KDEFfaces), data=HappySadRT, REML=TRUE)
+modelRT <- lmer (RT ~ StoryEmotion*FaceExpression + (1+StoryEmotion*FaceExpression|Subject) + (1+StoryEmotion*FaceExpression|Vignette) + (1+StoryEmotion+FaceExpression|Face), data=HappySadRT, REML=TRUE)
+modelRT.null <- lmer (RT ~ (1+StoryEmotion*FaceExpression|Subject) + (1+StoryEmotion*FaceExpression|Vignette) + (1+StoryEmotion+FaceExpression|Face), data=HappySadRT, REML=TRUE)
 anova (modelRT, modelRT.null)
 summary (modelRT)
 lsmeans (modelRT, pairwise~StoryEmotion*FaceExpression, adjust="none")
@@ -37,11 +37,11 @@ HappySadAcc <- read_csv("~/HappySadAcc.csv")
 HappySadAcc$StoryEmotion <- as.factor (HappySadAcc$StoryEmotion)
 HappySadAcc$FaceExpression <- as.factor (HappySadAcc$FaceExpression)
 
-contrasts (HappySadAcc$StoryEmotion)<-matrix (c(.5, -.5)) 
-contrasts (HappySadAcc$FaceExpression)<-matrix (c(.5, -.5)) 
+contrasts (HappySadAcc$StoryEmotion) <- matrix (c(.5, -.5)) 
+contrasts (HappySadAcc$FaceExpression) <- matrix (c(.5, -.5)) 
 
-#full model does not converge - most complex is with random intercepts
-modelAcc <- glmer (Acc ~ StoryEmotion*FaceExpression + (1|Subject) + (1|Trials) , data=HappySadAcc, family=binomial)
+#full model does not converge - most complex is with random intercepts and dropping random effect of Face
+modelAcc <- glmer (Acc ~ StoryEmotion*FaceExpression + (1|Subject) + (1|Vignette) , data=HappySadAcc, family=binomial)
 summary (modelAcc)
 lsmeans (modelAcc, pairwise~StoryEmotion*FaceExpression, adjust="none", type="response")
 

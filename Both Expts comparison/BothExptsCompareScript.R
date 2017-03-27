@@ -4,22 +4,21 @@ library (lmerTest)
 library (lsmeans)
 library (pbkrtest)
 library (readr)
+library (ggplot2)
 
 BothExptsRT <- read_csv("~/BothExptsRT.csv")
 
 BothExptsRT$Congruency <- as.factor (BothExptsRT$Congruency)
 BothExptsRT$Experiment <- as.factor (BothExptsRT$Experiment)
-BothExptsRT$KDEFfaces <- as.factor (BothExptsRT$KDEFfaces)
 
-contrasts (BothExptsRT$Congruency)<-matrix (c(.5, -.5)) 
-contrasts (BothExptsRT$Experiment)<-matrix (c(.5, -.5)) 
+contrasts (BothExptsRT$Congruency) <- matrix (c(.5, -.5)) 
+contrasts (BothExptsRT$Experiment) <- matrix (c(.5, -.5)) 
 
 #datafile relabelled so 2 levels of Congruency (Congruent vs Incongruent) to allow cross experiment comparision of Congruency magnitude
-#in datafile Trials corresponds to Vignettes, and KDEFfaces corresponds to Faces
 
-#check to see whether the interaction between Congruency and Experiment is significant (it is). Maximal random effects structure converges.
-model <- lmer (RT~ Congruency*Experiment + (1+Congruency|Subject) + (1+Congruency|Trials) + (1+Congruency|KDEFfaces), data=BothExptsRT, REML=TRUE)
-model.null <- lmer (RT~ Congruency + (1+Congruency|Subject) + (1+Congruency|Trials) + (1+Congruency|KDEFfaces), data=BothExptsRT, REML=TRUE)
+#check to see whether the interaction between Congruency and Experiment is significant (it is)
+model <- lmer (RT~ Congruency*Experiment + (1+Congruency|Subject) + (1+Congruency|Vignette) + (1+Congruency|Face), data=BothExptsRT, REML=TRUE)
+model.null <- lmer (RT~ Congruency + (1+Congruency|Subject) + (1+Congruency|Vignette) + (1+Congruency|Face), data=BothExptsRT, REML=TRUE)
 anova (model, model.null)
 summary (model)
 lsmeans (model, pairwise~Congruency*Experiment, adjust="none" )
