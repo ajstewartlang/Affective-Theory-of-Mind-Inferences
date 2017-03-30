@@ -1,0 +1,1 @@
+﻿This repository contains the analysis of each experiments where items which contain emotional have been excluded.  Even with these items excluded, the interactions (and associated pairwise comparisons) for both experiments are statistically highly robust.
