@@ -29,6 +29,7 @@ lsmeans (modelRT, pairwise~StoryEmotion*FaceExpression, adjust="none")
 HappySadgraphdata <- read_csv("~/HappySadgraphdata.csv")
 p <- ggplot(HappySadgraphdata, aes(x=StoryEmotion, y=Mean, group = FaceEmotion, colour = FaceEmotion, ymin = 1000, ymax=2000)) + geom_line() + geom_point() + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE), width=.1) + labs (y="RT in ms", x= "Vignette Emotion", colour="Facial Emotion")
 p <- p + scale_colour_grey(start = 0, end = .7) + theme_bw()
+p <- p + theme(text = element_text(size = 20))
 p
 
 #this is the analysis of the accuracy data
@@ -49,4 +50,5 @@ lsmeans (modelAcc, pairwise~StoryEmotion*FaceExpression, adjust="none", type="re
 HappySadgraphacc <- read_csv("~/HappySadgraphacc.csv")
 p <- ggplot(HappySadgraphacc, aes(x=StoryEmotion, y=Mean, group = FaceExpression, colour = FaceExpression, ymin = 80)) + geom_line() + geom_point() + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE), width=.1) + labs (y="% Correct", x= "Vignette Emotion", colour="Facial Emotion")
 p <- p + scale_colour_grey(start = 0, end = .7) + theme_bw()
+p <- p + theme(text = element_text(size = 20))
 p
