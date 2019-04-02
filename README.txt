@@ -1,6 +1,6 @@
 R Code and Data
 
-Stewart, S.L.K., Schepman, A., Haigh, M., McHugh, R., & Stewart, A.J. (in press). Affective theory of mind inferences contextually influence the recognition of emotional facial expressions. Cognition & Emotion.
+Stewart, S.L.K., Schepman, A., Haigh, M., McHugh, R., & Stewart, A.J. (2019). Affective theory of mind inferences contextually influence the recognition of emotional facial expressions. Cognition & Emotion, 33, 272-287.
 
 The repository “Both Expts comparison” contains the R analysis script and RT data for both experiments in 1 file.  The conditions are relabeled to congruent vs. incongruent to allow a comparison of the magnitude of the congruency effect across the two experiments.
 
